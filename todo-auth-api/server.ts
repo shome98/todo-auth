@@ -1,3 +1,22 @@
-import http from "http";
-const server = http.createServer((req, res) => res.end("hello from test"));
-server.listen(7890, () => console.log(`server running at http://localhost:7890/`));
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import userRoutes from "./routes/user.routes";
+import dotenv from "dotenv";
+import dbConnect from "./db/dbConnect";
+
+dotenv.config({
+    path:"./env"
+})
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use(cookieParser());
+
+//user routes
+app.use("/api/v1/users", userRoutes);
+
+dbConnect()
+    .then(() => app.listen(process.env.PORT, () => console.log(`Server is running at http://localhost:${process.env.PORT}`)))
+    .catch(error => console.log(`MONGODB CONNECTION FAILED!!!. `, error));
