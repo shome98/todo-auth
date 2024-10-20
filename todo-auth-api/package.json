@@ -4,7 +4,7 @@
   "main": "server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "startserver":"ts-node server.ts",
+    "startserver": "ts-node server.ts",
     "dev": "nodemon --exec ts-node server.ts"
   },
   "keywords": [],
@@ -13,11 +13,13 @@
   "description": "",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^22.7.6",
+    "cookie-parser": "^1.4.7",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
