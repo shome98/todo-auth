@@ -51,3 +51,20 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
         .cookie("refreshToken", refreshToken, { httpOnly: true })
         .json(new ApiResponse(200, { user: user.toObject({ versionKey: false, transform: (doc, ret) => { delete ret.password; return ret; } }), accessToken, refreshToken }, "User logged in successfully"));
 });
+
+// User Logout
+export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
+    const userId = req.user?.id;
+    
+    if (!userId) {
+        throw new ApiError(400, "User not authenticated");
+    }
+
+    await User.findByIdAndUpdate(userId, { $unset: { refreshToken: 1 } });
+
+    return res
+        .status(200)
+        .clearCookie("accessToken")
+        .clearCookie("refreshToken")
+        .json(new ApiResponse(200, {}, "User logged out successfully"));
+});
