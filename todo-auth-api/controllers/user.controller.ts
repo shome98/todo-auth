@@ -53,18 +53,19 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
 });
 
 // User Logout
-export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user?.id;
-    
-    if (!userId) {
-        throw new ApiError(400, "User not authenticated");
-    }
+// export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
+//     const userId = req.user?.id;
 
-    await User.findByIdAndUpdate(userId, { $unset: { refreshToken: 1 } });
+//     if (!userId) {
+//         throw new ApiError(400, "User not authenticated");
+//     }
 
-    return res
-        .status(200)
-        .clearCookie("accessToken")
-        .clearCookie("refreshToken")
-        .json(new ApiResponse(200, {}, "User logged out successfully"));
-});
+//     await User.findByIdAndUpdate(userId, { $unset: { refreshToken: 1 } });
+
+//     return res
+//         .status(200)
+//         .clearCookie("accessToken")
+//         .clearCookie("refreshToken")
+//         .json(new ApiResponse(200, {}, "User logged out successfully"));
+// });
+export const logoutUser = () => {};
