@@ -47,8 +47,8 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
 
     return res
         .status(200)
-        .cookie("accessToken", accessToken, { httpOnly: true })
-        .cookie("refreshToken", refreshToken, { httpOnly: true })
+        .cookie("accessToken", accessToken, { httpOnly: true, secure: true })
+        .cookie("refreshToken", refreshToken, { httpOnly: true, secure: true })
         .json(new ApiResponse(200, { user: user.toObject({ versionKey: false, transform: (doc, ret) => { delete ret.password; return ret; } }), accessToken, refreshToken }, "User logged in successfully"));
 });
 
