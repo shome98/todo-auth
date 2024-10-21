@@ -6,8 +6,8 @@ import { asyncHandler } from "../utils/asyncHandler";
 
 
 export const auth = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-  const token = req.cookies?.accessToken;
-  //const token = req.headers.authorization?.split(" ")[1];
+  //const token = req.cookies?.accessToken;
+  const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
     return next(new ApiError(401, "Authorization token is missing"));
