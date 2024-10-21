@@ -59,15 +59,15 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
         throw new ApiError(400, "Username or email is required");
     }
 
-    console.log('Login attempt with:', { username, email });
+    //console.log('Login attempt with:', { username, email });
 
     const user = await User.findOne({ $or: [{ username }, { email }] });
     if (!user) {
-        console.log('User not found:', { username, email });
+        //console.log('User not found:', { username, email });
         throw new ApiError(404, "User not found");
     }
 
-    console.log('User found:', user);
+    //console.log('User found:', user);
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
@@ -75,13 +75,13 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
         throw new ApiError(401, "Invalid credentials");
     }
 
-    console.log('Password is valid for user:', user._id);
+    //console.log('Password is valid for user:', user._id);
 
     // Generate tokens
     let accessToken, refreshToken;
     try {
         accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
-        console.log('Access token generated successfully:', accessToken);
+        //console.log('Access token generated successfully:', accessToken);
     } catch (error) {
         console.error('Error generating access token:', error);
         throw new ApiError(500, 'Error generating access token');
@@ -89,7 +89,7 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
 
     try {
         refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN_SECRET!, { expiresIn: '7d' });
-        console.log('Refresh token generated successfully:', refreshToken);
+        //console.log('Refresh token generated successfully:', refreshToken);
     } catch (error) {
         console.error('Error generating refresh token:', error);
         throw new ApiError(500, 'Error generating refresh token');
@@ -99,7 +99,7 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     try {
         user.refreshToken = refreshToken;
         await user.save();
-        console.log('Refresh token saved for user:', user._id);
+        //console.log('Refresh token saved for user:', user._id);
     } catch (error) {
         console.error('Error saving user refresh token:', error);
         throw new ApiError(500, 'Error saving refresh token');
