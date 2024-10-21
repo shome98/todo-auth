@@ -5,8 +5,9 @@ import jwt from "jsonwebtoken";
 import { asyncHandler } from "../utils/asyncHandler";
 
 
-export const auth=asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-  const token = req.headers.authorization?.split(" ")[1];
+export const auth = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+  const token = req.cookies?.accessToken;
+  //const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
     return next(new ApiError(401, "Authorization token is missing"));
@@ -22,7 +23,8 @@ export const auth=asyncHandler(async (req: Request, res: Response, next: NextFun
 
     //req.user = user;
     //const refreshToken = user.refreshToken;
-    (req as any).user = user;
+    // (req as any).user = user;
+    res.cookie("accessToken", token, { httpOnly: true });
     next();
   } catch (error) {
     return next(new ApiError(401, "Invalid token"));
