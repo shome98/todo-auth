@@ -22,35 +22,101 @@ export const registerUser = asyncHandler(async (req: Request, res: Response) => 
 })
 
 //user Login
+// export const loginUser = asyncHandler(async (req: Request, res: Response) => {
+//     const { username, email, password } = req.body;
+
+//     if (!username && !email) {
+//         throw new ApiError(400, "Username or email is required");
+//     }
+
+//     const user = await User.findOne({ $or: [{ username }, { email }] });
+//     if (!user) {
+//         throw new ApiError(404, "User not found");
+//     }
+
+//     const isPasswordValid = await bcrypt.compare(password, user.password);
+//     if (!isPasswordValid) {
+//         throw new ApiError(401, "Invalid credentials");
+//     }
+
+//     const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+//     const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN_SECRET!, { expiresIn: '7d' });
+
+//     user.refreshToken = refreshToken;
+//     await user.save();
+
+//     return res
+//         .status(200)
+//         .cookie("accessToken", accessToken, { httpOnly: true, secure: true })
+//         .cookie("refreshToken", refreshToken, { httpOnly: true, secure: true })
+//         .json(new ApiResponse(200, { user: user.toObject({ versionKey: false, transform: (doc, ret) => { delete ret.password; return ret; } }), accessToken, refreshToken }, "User logged in successfully"));
+// });
 export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
 
     if (!username && !email) {
+        console.log('No username or email provided');
         throw new ApiError(400, "Username or email is required");
     }
 
+    console.log('Login attempt with:', { username, email });
+
     const user = await User.findOne({ $or: [{ username }, { email }] });
     if (!user) {
+        console.log('User not found:', { username, email });
         throw new ApiError(404, "User not found");
     }
 
+    console.log('User found:', user);
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
+        console.log('Invalid password for user:', user._id);
         throw new ApiError(401, "Invalid credentials");
     }
 
-    const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
-    const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN_SECRET!, { expiresIn: '7d' });
+    console.log('Password is valid for user:', user._id);
 
-    user.refreshToken = refreshToken;
-    await user.save();
+    // Generate tokens
+    let accessToken, refreshToken;
+    try {
+        accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+        console.log('Access token generated successfully:', accessToken);
+    } catch (error) {
+        console.error('Error generating access token:', error);
+        throw new ApiError(500, 'Error generating access token');
+    }
 
+    try {
+        refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN_SECRET!, { expiresIn: '7d' });
+        console.log('Refresh token generated successfully:', refreshToken);
+    } catch (error) {
+        console.error('Error generating refresh token:', error);
+        throw new ApiError(500, 'Error generating refresh token');
+    }
+
+    // Save refresh token in DB
+    try {
+        user.refreshToken = refreshToken;
+        await user.save();
+        console.log('Refresh token saved for user:', user._id);
+    } catch (error) {
+        console.error('Error saving user refresh token:', error);
+        throw new ApiError(500, 'Error saving refresh token');
+    }
+
+    // Send tokens in cookies
     return res
         .status(200)
-        .cookie("accessToken", accessToken, { httpOnly: true, secure: true })
+        .cookie("accessToken", accessToken, { httpOnly: true, secure: true})
         .cookie("refreshToken", refreshToken, { httpOnly: true, secure: true })
-        .json(new ApiResponse(200, { user: user.toObject({ versionKey: false, transform: (doc, ret) => { delete ret.password; return ret; } }), accessToken, refreshToken }, "User logged in successfully"));
+        .json(new ApiResponse(200, {
+            user: user.toObject({ versionKey: false, transform: (doc, ret) => { delete ret.password; return ret; } }),
+            accessToken,
+            refreshToken
+        }, "User logged in successfully"));
 });
+
 
 // User Logout
 export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
