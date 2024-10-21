@@ -53,19 +53,26 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
 });
 
 // User Logout
-// export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
-//     const userId = req.user?.id;
+export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
+    const user2 = (req as any).user;
+    console.log("from req as any ",user2);
+    const token = req.cookies?.accessToken;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
+    console.log(decoded);
+    const user = await User.findById(decoded.id).select("-password");
+    console.log(user);
+    const userId = user?._id;
 
-//     if (!userId) {
-//         throw new ApiError(400, "User not authenticated");
-//     }
+    if (!userId) {
+        throw new ApiError(400, "User not authenticated");
+    }
 
-//     await User.findByIdAndUpdate(userId, { $unset: { refreshToken: 1 } });
+    await User.findByIdAndUpdate(userId, { $unset: { refreshToken: 1 } });
 
-//     return res
-//         .status(200)
-//         .clearCookie("accessToken")
-//         .clearCookie("refreshToken")
-//         .json(new ApiResponse(200, {}, "User logged out successfully"));
-// });
-export const logoutUser = () => {};
+    return res
+        .status(200)
+        .clearCookie("accessToken")
+        .clearCookie("refreshToken")
+        .json(new ApiResponse(200, {}, "User logged out successfully"));
+});
+//export const logoutUser = () => {};

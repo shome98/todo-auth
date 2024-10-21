@@ -1,10 +1,11 @@
-import { NextFunction } from "express";
+import { NextFunction,Request,Response } from "express";
 import User from "../models/user.model";
 import { ApiError } from "../utils/ApiError";
 import jwt from "jsonwebtoken";
+import { asyncHandler } from "../utils/asyncHandler";
 
 
-export const auth=async (req: Request, res: Response, next: NextFunction) => {
+export const auth=asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
@@ -19,9 +20,11 @@ export const auth=async (req: Request, res: Response, next: NextFunction) => {
       return next(new ApiError(401, "User not found"));
     }
 
-    req.user = user;
+    //req.user = user;
+    //const refreshToken = user.refreshToken;
+    (req as any).user = user;
     next();
   } catch (error) {
     return next(new ApiError(401, "Invalid token"));
   }
-};
+});
