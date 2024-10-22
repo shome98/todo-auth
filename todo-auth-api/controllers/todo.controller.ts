@@ -74,3 +74,17 @@ export const patchTodo = asyncHandler(async (req: Request, res: Response) => {
 
     return res.status(200).json(new ApiResponse(200, todo, "Todo updated successfully."));
 });
+
+// Delete a To-Do by ID
+export const deleteTodo = asyncHandler(async (req: Request, res: Response) => {
+    const userId = (req as any).userId;
+    const todoId = req.params.id;
+
+    const todo = await Todo.findOneAndDelete({ _id: todoId, userId });
+
+    if (!todo) {
+        throw new ApiError(404, "Todo not found");
+    }
+
+    return res.status(204).json(new ApiResponse(204, null, "Todo deleted successfully."));
+});
