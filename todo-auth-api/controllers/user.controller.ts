@@ -155,3 +155,23 @@ export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
         .json(new ApiResponse(200, {}, "User logged out successfully"));
 });
 //export const logoutUser = () => {};
+
+export const forgotPassword = asyncHandler(async (req: Request, res: Response) => {
+    const { username, email, newPassword } = req.body;
+
+    if (!username && !email) {
+        throw new ApiError(400, "Please provide username or email to reset password.");
+    }
+
+    const user = await User.findOne({ $or: [{ username }, { email }] });
+    if (!user) {
+        throw new ApiError(404, "User not found.");
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashedPassword;
+    await user.save();
+
+    return res.status(200).json(new ApiResponse(200, {}, "Password reset successfully."));
+});
