@@ -55,3 +55,22 @@ export const updateTodo = asyncHandler(async (req: Request, res: Response) => {
 
     return res.status(200).json(new ApiResponse(200, todo, "Todo updated successfully."));
 });
+
+// Patch (Partial update) of a To-Do by ID
+export const patchTodo = asyncHandler(async (req: Request, res: Response) => {
+    const userId = (req as any).userId;
+    const todoId = req.params.id;
+    const { title, description, completed } = req.body;
+
+    const todo = await Todo.findOneAndUpdate(
+        { _id: todoId, userId },
+        { $set: req.body },
+        { new: true, runValidators: true }
+    );
+
+    if (!todo) {
+        throw new ApiError(404, "Todo not found");
+    }
+
+    return res.status(200).json(new ApiResponse(200, todo, "Todo updated successfully."));
+});
