@@ -106,36 +106,47 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     }
 
     // Send tokens in cookies
-    return res
+    // return res
+    //     .status(200)
+    //     .cookie("accessToken", accessToken, { httpOnly: true, secure: true})
+    //     .cookie("refreshToken", refreshToken, { httpOnly: true, secure: true })
+    //     .json(new ApiResponse(200, {
+    //         user: user.toObject({ versionKey: false, transform: (doc, ret) => { delete ret.password; return ret; } }),
+    //         accessToken,
+    //         refreshToken
+    //     }, "User logged in successfully"));
+        return res
         .status(200)
-        .cookie("accessToken", accessToken, { httpOnly: true, secure: true})
+        .cookie("accessToken", accessToken, { httpOnly: true, secure: true })
         .cookie("refreshToken", refreshToken, { httpOnly: true, secure: true })
-        .json(new ApiResponse(200, {
-            user: user.toObject({ versionKey: false, transform: (doc, ret) => { delete ret.password; return ret; } }),
-            accessToken,
-            refreshToken
-        }, "User logged in successfully"));
+        .json(new ApiResponse(200, { user: user.toObject({ versionKey: false, transform: (doc, ret) => { delete ret.password; return ret; } }), accessToken, refreshToken }, "User logged in successfully"));
+
 });
 
 
 // User Logout
 export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
     const token = req.cookies?.accessToken;
+    const userId2 = (req as any).userId;
+    // userId2 = "";
+    // console.log("from req as any from middleware id is ", userId2);
     // console.log("from response of middleware ", token);
     // const cookieUser = req.cookies?.user;
     // console.log("user from auth cookies ", cookieUser);
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
+    //const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
     // console.log(decoded);
-    const user = await User.findById(decoded.id).select("-password");
+    //const user = await User.findById(decoded.id).select("-password");
+    //const user2 = await User.findById(userId2).select("-password");
     // console.log(user);
-    const userId = user?._id;
+    //const userId = user2?._id;
 
-    if (!userId) {
+    if (!userId2) {
         throw new ApiError(400, "User not authenticated");
     }
-
-    await User.findByIdAndUpdate(userId, { $unset: { refreshToken: 1 } });
-    console.log(User.find(userId));
+    
+    //await User.findByIdAndUpdate(userId, { $unset: { refreshToken: 1 } });
+    await User.findByIdAndUpdate(userId2, { $unset: { refreshToken: 1 } });
+    console.log(User.findById(userId2));
 
     return res
         .status(200)
