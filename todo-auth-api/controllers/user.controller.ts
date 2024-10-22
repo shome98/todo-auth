@@ -175,3 +175,26 @@ export const forgotPassword = asyncHandler(async (req: Request, res: Response) =
 
     return res.status(200).json(new ApiResponse(200, {}, "Password reset successfully."));
 });
+
+// Update password for authenticated user
+export const updatePassword = asyncHandler(async (req: Request, res: Response) => {
+    const { oldPassword, newPassword } = req.body;
+
+    const userId = (req as any).userId;
+
+    const user = await User.findById(userId);
+    if (!user) {
+        throw new ApiError(404, "User not found.");
+    }
+
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+    if (!isPasswordValid) {
+        throw new ApiError(401, "Invalid old password.");
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedNewPassword;
+    await user.save();
+
+    return res.status(200).json(new ApiResponse(200, {}, "Password updated successfully."));
+});
