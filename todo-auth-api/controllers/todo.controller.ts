@@ -24,3 +24,16 @@ export const getTodos = asyncHandler(async (req: Request, res: Response) => {
     return res.status(200).json(new ApiResponse(200, todos, "Todos retrieved successfully."));
 });
 
+// Get a single To-Do by ID
+export const getTodoById = asyncHandler(async (req: Request, res: Response) => {
+    const userId = (req as any).userId;
+    const todoId = req.params.id;
+
+    const todo = await Todo.findOne({ _id: todoId, userId });
+    if (!todo) {
+        throw new ApiError(404, "Todo not found");
+    }
+
+    return res.status(200).json(new ApiResponse(200, todo, "Todo retrieved successfully."));
+});
+
