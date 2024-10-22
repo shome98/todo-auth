@@ -95,3 +95,9 @@ export const getCompletedTodos = asyncHandler(async (req: Request, res: Response
     const todos = await Todo.find({ userId, completed: true });
     return res.status(200).json(new ApiResponse(200, todos, "Completed Todos retrieved successfully."));
 });
+
+export const getPendingTodos = asyncHandler(async (req: Request, res: Response) => {
+    const userId = (req as any).userId;
+    const todos = await Todo.find({ userId, completed: false });
+    return res.status(200).json(new ApiResponse(200, todos, "Pending Todos retrieved successfully."));
+});
