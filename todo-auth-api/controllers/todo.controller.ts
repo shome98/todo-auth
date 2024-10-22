@@ -5,7 +5,9 @@ import Todo from "../models/todo.model";
 import { ApiResponse } from "../utils/ApiResponse";
 
 export const createTodo = asyncHandler(async (req: Request, res: Response) => {
-    const userId = await getIdFromToken(req);
+    //const userId = await getIdFromToken(req);
+    const userId = (req as any).userId;
+    console.log(userId);
     const { title, description } = req.body;
     const todo = await Todo.create({ userId, title, description });
     const createdTodo = await Todo.findById(todo._id);
