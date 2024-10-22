@@ -6,15 +6,16 @@ import { asyncHandler } from "../utils/asyncHandler";
 
 
 export const auth = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-  const token = req.cookies?.accessToken;
-  //const token = req.headers.authorization?.split(" ")[1];
+  //const tokenCookie = req.cookies?.accessToken;
+  const token = req.headers.authorization?.split(" ")[1]||req.cookies?.accessToken;
+  let decoded;
 
   if (!token) {
     return next(new ApiError(401, "Authorization token is missing"));
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
+    decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
     const user = await User.findById(decoded.id).select("-password");
 
     if (!user) {
@@ -23,7 +24,7 @@ export const auth = asyncHandler(async (req: Request, res: Response, next: NextF
 
     //req.user = user;
     //const refreshToken = user.refreshToken;
-    // (req as any).user = user;
+    (req as any).userId = decoded.id;
     res.cookie("accessToken", token, { httpOnly: true, secure: true });
     next();
   } catch (error) {
