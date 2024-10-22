@@ -143,10 +143,10 @@ export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
     if (!userId2) {
         throw new ApiError(400, "User not authenticated");
     }
-    
+
     //await User.findByIdAndUpdate(userId, { $unset: { refreshToken: 1 } });
     await User.findByIdAndUpdate(userId2, { $unset: { refreshToken: 1 } });
-    console.log(User.findById(userId2));
+    //console.log(User.findById(userId2));
 
     return res
         .status(200)
