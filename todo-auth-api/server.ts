@@ -10,8 +10,12 @@ dotenv.config({
     path:"./env"
 })
 
+const corsOptions = {
+    origin: ['http://localhost:5173'], // Change to your client-side origin
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+};
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
