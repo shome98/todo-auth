@@ -150,8 +150,8 @@ export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
 
     return res
         .status(200)
-        .clearCookie("accessToken")
-        .clearCookie("refreshToken")
+        .clearCookie("accessToken",{ httpOnly: true, secure: true,sameSite: "none" as "none" | "lax" | "strict" })
+        .clearCookie("refreshToken",{ httpOnly: true, secure: true,sameSite: "none" as "none" | "lax" | "strict" })
         .json(new ApiResponse(200, {}, "User logged out successfully"));
 });
 //export const logoutUser = () => {};
