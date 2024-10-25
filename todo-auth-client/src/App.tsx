@@ -1,12 +1,10 @@
-import Index from "./components/Index.tsx"
-
-
+import Check from "./components/Check"
 
 function App() {
 
   return (
     <>
-      <Index/>
+      <Check></Check>
       <h1 className="text-3xl font-bold bg-slate-400">my todo app</h1>
     </>
   )

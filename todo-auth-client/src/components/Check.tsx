@@ -1,7 +1,7 @@
 import {  useState } from "react";
 import { loginUser, logoutUser } from "../services/authService";
 
-function Index() {
+function Check() {
     const [login, setLogin] = useState(false);
     const handleLogin = async () => {
         const res = await loginUser({ "username": "username seven", "password": "password" });
@@ -22,4 +22,4 @@ function Index() {
             
     </>;
 }
-export default Index;
+export default Check;
