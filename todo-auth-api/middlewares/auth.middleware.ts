@@ -25,7 +25,7 @@ export const auth = asyncHandler(async (req: Request, res: Response, next: NextF
     //req.user = user;
     //const refreshToken = user.refreshToken;
     (req as any).userId = decoded.id;
-    res.cookie("accessToken", token, { httpOnly: true, secure: true });
+    res.cookie("accessToken", token, { httpOnly: true, secure: true, sameSite: "none" as "none" | "lax" | "strict" });
     next();
   } catch (error) {
     return next(new ApiError(401, "Invalid token"));

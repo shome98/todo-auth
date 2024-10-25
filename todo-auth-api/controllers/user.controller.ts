@@ -117,8 +117,8 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     //     }, "User logged in successfully"));
         return res
         .status(200)
-        .cookie("accessToken", accessToken, { httpOnly: true, secure: true })
-        .cookie("refreshToken", refreshToken, { httpOnly: true, secure: true })
+        .cookie("accessToken", accessToken, { httpOnly: true, secure: true,sameSite: "none" as "none" | "lax" | "strict" })
+        .cookie("refreshToken", refreshToken, { httpOnly: true, secure: true,sameSite: "none" as "none" | "lax" | "strict" })
         .json(new ApiResponse(200, { user: user.toObject({ versionKey: false, transform: (doc, ret) => { delete ret.password; return ret; } }), accessToken, refreshToken }, "User logged in successfully"));
 
 });
