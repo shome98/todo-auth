@@ -11,7 +11,7 @@ dotenv.config({
 })
 
 const corsOptions = {
-    origin: ['http://localhost:5173'], // Change to your client-side origin
+    origin: ['http://localhost:5173','https://todo-auth-xklt.vercel.app'], // Change to your client-side origin
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
 };
 const app = express();
