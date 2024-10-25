@@ -74,3 +74,25 @@ export const deleteTodo = async (id: string) => {
         throw error;
     }
 };
+
+// Get completed todos
+export const getCompletedTodos = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/status/completed`, { withCredentials: true });
+        return response.data; // Return the data containing completed todos
+    } catch (error) {
+        console.error("Can't get completed todos!!!", error);
+        throw error;
+    }
+};
+
+// Get pending todos
+export const getPendingTodos = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/status/pending`, { withCredentials: true });
+        return response.data; // Return the data containing pending todos
+    } catch (error) {
+        console.error("Can't get pending todos!!!", error);
+        throw error;
+    }
+};
