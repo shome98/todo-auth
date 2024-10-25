@@ -1,7 +1,7 @@
 import {  useState } from "react";
 import { loginUser, logoutUser } from "../services/authService";
 
-export const Index: React.FC = () => {
+const Index: React.FC = () => {
     const [login, setLogin] = useState(false);
     const handleLogin = async () => {
         const res = await loginUser({ "username": "username seven", "password": "password" });
@@ -22,3 +22,4 @@ export const Index: React.FC = () => {
             
     </>;
 }
+export default Index;

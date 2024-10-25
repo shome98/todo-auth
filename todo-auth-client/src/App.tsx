@@ -1,4 +1,4 @@
-import { Index } from "./components/Index.tsx"
+import Index  from "./components/Index.tsx"
 
 
 function App() {
