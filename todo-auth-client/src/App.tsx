@@ -1,11 +1,11 @@
-import Check from "./components/Check"
+
 import Home from "./pages/Home"
 function App() {
 
   return (
     <>
       <Home />
-      <Check/>
+
       <h1 className="text-3xl font-bold bg-slate-400">my todo app</h1>
     </>
   )
