@@ -1,7 +1,7 @@
 import {  useState } from "react";
 import { loginUser, logoutUser } from "../services/authService";
 
-const Index: React.FC = () => {
+const Index = () => {
     const [login, setLogin] = useState(false);
     const handleLogin = async () => {
         const res = await loginUser({ "username": "username seven", "password": "password" });
