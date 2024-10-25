@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { loginUser, logoutUser, registerUser } from "../services/authService-test";
-import { forgotPassword, updatePassword } from "../services/authService";
+import { forgotPassword, loginUser, logoutUser, registerUser, updatePassword } from "../services/authService";
 
 interface AuthState {
     user: null | object;
