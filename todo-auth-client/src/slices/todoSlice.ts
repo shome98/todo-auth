@@ -1,6 +1,7 @@
 // src/features/todoSlice.ts
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getTodos, getTodo, createTodo, updateComplete, updateTodo, deleteTodo } from '../services/todoService';
+import { createTodo, deleteTodo, getCompletedTodos, getPendingTodos, getTodo, getTodos, updateComplete, updateTodo } from '../services/todoService';
+
 
 interface Todo {
     id: string;
@@ -51,9 +52,9 @@ export const addNewTodo = createAsyncThunk('todos/addTodo', async (todo: { title
     }
 });
 
-export const toggleTodoComplete = createAsyncThunk('todos/toggleTodoComplete', async ({ id, completed }: { id: string; completed: boolean },{ rejectWithValue }) => {
+export const toggleTodoComplete = createAsyncThunk('todos/toggleTodoComplete', async ({ id, completed }: { id: string; completed: boolean }, { rejectWithValue }) => {
     try {
-        const response = await updateComplete(id,completed);
+        const response = await updateComplete(id, completed);
         return response.data;
     } catch (error) {
         return rejectWithValue(`Failed to toggle todo completion ${error}`);
@@ -75,6 +76,25 @@ export const removeExistingTodo = createAsyncThunk('todos/deleteTodo', async (id
         return id;
     } catch (error) {
         return rejectWithValue(`Failed to delete todo ${error}`);
+    }
+});
+
+// New async thunks for fetching completed and pending todos
+export const fetchCompletedTodos = createAsyncThunk('todos/fetchCompletedTodos', async (_, { rejectWithValue }) => {
+    try {
+        const response = await getCompletedTodos();
+        return response.data; // Return completed todos
+    } catch (error) {
+        return rejectWithValue(`Failed to fetch completed todos ${error}`);
+    }
+});
+
+export const fetchPendingTodos = createAsyncThunk('todos/fetchPendingTodos', async (_, { rejectWithValue }) => {
+    try {
+        const response = await getPendingTodos();
+        return response.data; // Return pending todos
+    } catch (error) {
+        return rejectWithValue(`Failed to fetch pending todos ${error}`);
     }
 });
 
@@ -165,6 +185,34 @@ const todoSlice = createSlice({
                 state.todos = state.todos.filter((todo) => todo.id !== action.payload);
             })
             .addCase(removeExistingTodo.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            })
+
+            // New cases for fetching completed todos
+            .addCase(fetchCompletedTodos.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchCompletedTodos.fulfilled, (state, action) => {
+                state.loading = false;
+                state.todos = action.payload; // Set state to completed todos
+            })
+            .addCase(fetchCompletedTodos.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            })
+
+            // New cases for fetching pending todos
+            .addCase(fetchPendingTodos.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchPendingTodos.fulfilled, (state, action) => {
+                state.loading = false;
+                state.todos = action.payload; // Set state to pending todos
+            })
+            .addCase(fetchPendingTodos.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string;
             });
