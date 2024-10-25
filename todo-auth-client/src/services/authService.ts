@@ -26,9 +26,19 @@ export const registerUser = async (userData: { username: string; email: string; 
     }
 };
 
+// export const logoutUser = async (token:string) => {
+//     try {
+//         const response = await axios.post(`${API_URL}/logout`, {},{ withCredentials: true,headers:{
+//                     Authorization: `Bearer ${token}`
+//                 } });
+//         return response;
+//     } catch (error) {
+//         console.error("User can't logout error!!! ", error);
+//     }
+// }
 export const logoutUser = async () => {
     try {
-        const response = await axios.post(`${API_URL}/logout`, {},{ withCredentials: true });
+        const response = await axios.post(`${API_URL}/logout`, {},{ withCredentials: true});
         return response;
     } catch (error) {
         console.error("User can't logout error!!! ", error);
