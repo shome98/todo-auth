@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { register } from "../slices/authSlice";
+//import { useDispatch } from "react-redux";
+//import { register } from "../slices/authSlice";
 
 interface User{
     username?: string;
@@ -15,7 +15,7 @@ const Register = () => {
     // const [error, setError] = useState('');
     // const [username, setuserName] = useState('');
     // const [email, setEmail] = useState('')
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
     //dispatch(register(user));
     console.log(user);
     return (
