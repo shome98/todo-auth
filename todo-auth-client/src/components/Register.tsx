@@ -1,16 +1,21 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { register } from "../slices/authSlice"; // Importing the register action
+import { AppDispatch } from "../store/store";
 
 interface User {
-    username?: string;
-    email?: string;
-    password?: string;
+    username: string;
+    email: string;
+    password: string;
 }
 
 const Register = () => {
-    const dispatch = useDispatch();
-    const [user, setUser] = useState<User>({});
+    const dispatch = useDispatch<AppDispatch>();
+    const [user, setUser] = useState<User>({
+        username: '',  
+        email: '',     
+        password: ''   
+    });
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
 
@@ -29,7 +34,7 @@ const Register = () => {
         // Dispatch the register action if passwords are the same
         if (user.username && user.email && user.password) {
             dispatch(register(user));
-            setUser({});
+            setUser({ username: '', email: '', password: '' });
             setConfirmPassword('');
         }
     };
