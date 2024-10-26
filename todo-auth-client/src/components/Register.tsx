@@ -1,30 +1,47 @@
 import { useState } from "react";
-//import { useDispatch } from "react-redux";
-//import { register } from "../slices/authSlice";
+import { useDispatch } from "react-redux";
+import { register } from "../slices/authSlice"; // Importing the register action
 
-interface User{
+interface User {
     username?: string;
     email?: string;
     password?: string;
 }
 
 const Register = () => {
-    const[user,setUser]=useState<User>()
-    // const [password, setPassword] = useState('');
-    // const [confirmPassword, setConfirmPassword] = useState('');
-    // const [error, setError] = useState('');
-    // const [username, setuserName] = useState('');
-    // const [email, setEmail] = useState('')
-    //const dispatch = useDispatch();
-    //dispatch(register(user));
-    console.log(user);
+    const dispatch = useDispatch();
+    const [user, setUser] = useState<User>({});
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState('');
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        // Check if passwords match
+        if (user.password !== confirmPassword) {
+            setError('Passwords do not match!');
+            return;
+        }
+
+        // Clear error if passwords match
+        setError('');
+
+        // Dispatch the register action if passwords are the same
+        if (user.username && user.email && user.password) {
+            dispatch(register(user));
+            setUser({});
+            setConfirmPassword('');
+        }
+    };
+
     return (
         <div className="h-screen bg-gradient-to-br from-blue-600 to-cyan-300 flex justify-center items-center w-full">
-            <form method='POST' action='#'>
+            <form method='POST' action='#' onSubmit={handleSubmit}>
                 <div className="bg-white px-10 py-8 rounded-xl w-screen shadow-xl max-w-sm">
                     <div className="space-y-4">
                         <h1 className="text-center text-2xl font-semibold text-gray-600">Create your Account</h1>
                         <hr />
+                        
                         {/* Username Field */}
                         <div className="flex items-center border-2 py-2 px-3 rounded-md mb-4">
                             <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -35,8 +52,8 @@ const Register = () => {
                                 type="text" 
                                 name="username" 
                                 placeholder="Username" 
-                                value={user?.username}
-                                onChange={(e)=>setUser({...user,username:e.target.value})}
+                                value={user?.username || ''}
+                                onChange={(e) => setUser({ ...user, username: e.target.value })}
                                 required 
                             />
                         </div>
@@ -51,8 +68,8 @@ const Register = () => {
                                 type="email" 
                                 name="email" 
                                 placeholder="Email" 
-                                value={user?.email}
-                                onChange={e=>setUser({...user,email:e.target.value})}
+                                value={user?.email || ''}
+                                onChange={(e) => setUser({ ...user, email: e.target.value })}
                                 required 
                             />
                         </div>
@@ -67,8 +84,8 @@ const Register = () => {
                                 type="password" 
                                 name="password" 
                                 placeholder="Password" 
-                                value={user?.password}
-                                onChange={e=>setUser({...user,password:e.target.value})}
+                                value={user?.password || ''}
+                                onChange={(e) => setUser({ ...user, password: e.target.value })}
                                 required 
                             />
                         </div>
@@ -83,9 +100,18 @@ const Register = () => {
                                 type="password" 
                                 name="confirmPassword" 
                                 placeholder="Confirm Password" 
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
                                 required 
                             />
                         </div>
+
+                        {/* Error Message Display */}
+                        {error && (
+                            <div className="text-red-500 text-sm text-center mb-4">
+                                {error}
+                            </div>
+                        )}
                     </div>
                     
                     <button type="submit" className="mt-6 w-full shadow-xl bg-gradient-to-tr from-blue-600 to-red-400 hover:to-red-700 text-indigo-100 py-2 rounded-md text-lg tracking-wide transition duration-1000">
