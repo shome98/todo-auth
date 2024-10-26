@@ -2,12 +2,12 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
-import { RootState } from "../store/store";
+import { AppDispatch, RootState } from "../store/store";
 
 const Login = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const dispatch = useDispatch();
+    const [username, setUsername] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
     const auth = useSelector((state: RootState) => state.auth);
