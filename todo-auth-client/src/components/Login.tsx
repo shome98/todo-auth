@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
@@ -11,16 +11,19 @@ const Login = () => {
     const navigate = useNavigate();
 
     const auth = useSelector((state: RootState) => state.auth);
-    const { loading, error, user } = auth;
+    const { loading, error,isAuthenticated } = auth;
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        await dispatch(login({ username, password }));
-
-        if (!loading && user) {
-            navigate("/loggedin"); // Redirect to the "You're logged in" page
-        }
+        dispatch(login({ username, password }));
+        // if (!loading && user) {
+        //     console.log(user);
+        //     navigate("/loggedin"); // Redirect to the "You're logged in" page
+        // }
     };
+    useEffect(() => {
+        if (isAuthenticated) navigate("/loggedin");
+    },[isAuthenticated,navigate])
 
     return (
         <div className="h-screen bg-gradient-to-br from-blue-600 to-cyan-300 flex justify-center items-center w-full">
@@ -70,7 +73,7 @@ const Login = () => {
                             className="mt-6 w-full shadow-xl bg-gradient-to-tr from-blue-600 to-red-400 hover:to-red-700 text-indigo-100 py-2 rounded-md text-lg tracking-wide transition duration-1000"
                             disabled={loading}
                         >
-                            {loading ? "Logging in..." : "Login"}
+                            {loading? "Logging in..." : "Login"}
                         </button>
 
                         <hr />

@@ -8,6 +8,7 @@ interface AuthState {
     logoutStatus: null | number;
     passwordResetStatus: null | string;
     passwordUpdateStatus: null | string;
+    isAuthenticated: boolean;
 }
 const initialState: AuthState = {
     user: null,
@@ -16,6 +17,7 @@ const initialState: AuthState = {
     logoutStatus: null,
     passwordResetStatus: null,
     passwordUpdateStatus: null,
+    isAuthenticated:false
 };
 
 export const login = createAsyncThunk('auth/login', async (userData: { username: string, password: string }) => {
@@ -56,6 +58,7 @@ const authSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = action.payload;
+                state.isAuthenticated = true;
             })
             .addCase(login.rejected, (state, action) => {
                 state.loading = false;
@@ -83,6 +86,7 @@ const authSlice = createSlice({
             .addCase(logout.fulfilled, (state) => {
                 state.loading = false;
                 state.user = null;
+                state.isAuthenticated = false;
                 state.logoutStatus = 200;
             })
             .addCase(logout.rejected, (state, action) => {
