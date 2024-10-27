@@ -15,6 +15,10 @@ const Home = () => {
                 onClick={()=>navigate('/register')}>
             Create an account
                 </button>
+                <button className="px-8 py-4 bg-gradient-to-r from-red-500 to-teal-500 text-white font-bold rounded-full transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg"
+                onClick={()=>navigate('/todolist')}>
+            todo-check
+                </button>
     </div>
         </div>
     );
