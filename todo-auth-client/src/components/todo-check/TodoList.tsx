@@ -43,24 +43,24 @@ const TodoList: React.FC = () => {
   };
 
   // Edit a todo item (For simplicity, just updating the title here)
-  const editTodo = (id: number,newTitle?:string,newDescription?:string) => {
-    // const newTitle = prompt('Enter new title:');
-    // const newDescription=prompt('Enter a new Description');
-    // if (newTitle && newDescription) {
-    //   setTodos((prevTodos) =>
-    //     prevTodos.map((todo) =>
-    //       todo.id === id ? { ...todo,title: newTitle,description:newDescription } : todo
-    //     )
-    //   );
-    // }
-    console.log(`${id}____${newTitle}___${newDescription} recieved from editmodal->todocard->todolist->edittodo`);
-    //if(newTitle||newDescription)
-    setTodos((prevTodos) =>
-        prevTodos.map((todo) =>
-          todo.id === id ? {   ...todo } : todo
-        )
-      );
-  };
+  // const editTodo = (id: number,newTitle?:string,newDescription?:string) => {
+  //   // const newTitle = prompt('Enter new title:');
+  //   // const newDescription=prompt('Enter a new Description');
+  //   // if (newTitle && newDescription) {
+  //   //   setTodos((prevTodos) =>
+  //   //     prevTodos.map((todo) =>
+  //   //       todo.id === id ? { ...todo,title: newTitle,description:newDescription } : todo
+  //   //     )
+  //   //   );
+  //   // }
+  //   console.log(`${id}____${newTitle}___${newDescription} recieved from editmodal->todocard->todolist->edittodo`);
+  //   //if(newTitle||newDescription)
+  //   setTodos((prevTodos) =>
+  //       prevTodos.map((todo) =>
+  //         todo.id === id ? {   ...todo } : todo
+  //       )
+  //     );
+  // };
 
   // Delete a todo item
   const deleteTodo = (id: number) => {
@@ -77,7 +77,7 @@ const TodoList: React.FC = () => {
             title={todo.title}
             description={todo.description}
             completed={todo.completed}
-            onEdit={() => editTodo(todo.id)}
+            //onEdit={() => editTodo(todo.id)}
             onDelete={() => deleteTodo(todo.id)}
             onToggleComplete={() => toggleComplete(todo.id)}
           />

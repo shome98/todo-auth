@@ -5,7 +5,7 @@ interface Todo {
   title: string;
   description: string;
   completed: boolean;
-  onEdit: () => void;
+  //onEdit: () => void;
   onDelete: () => void;
   onToggleComplete: () => void;
 }
@@ -14,7 +14,6 @@ const TodoCard: React.FC<Todo> = ({
   title,
   description,
   completed,
-  onEdit,
   onDelete,
   onToggleComplete,
 }) => {
