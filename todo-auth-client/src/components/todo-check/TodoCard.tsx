@@ -49,7 +49,6 @@
 //               className="p-1 text-blue-500 transition-colors rounded hover:bg-blue-100 focus:outline-none"
 //             >
 //               <svg
-//                 xmlns="http://www.w3.org/2000/svg"
 //                 className="w-6 h-6"
 //                 fill="none"
 //                 viewBox="0 0 24 24"
@@ -98,6 +97,125 @@
 // };
 
 // export default TodoCard;
+
+import React, { useState } from 'react';
+import EditModal from './EditModal';
+
+interface TodoCardProps {
+  title: string;
+  description: string;
+  completed: boolean;
+  onEdit: (newTitle: string, newDescription: string) => void;
+  onDelete: () => void;
+  onToggleComplete: () => void;
+}
+
+const TodoCard: React.FC<TodoCardProps> = ({
+  title,
+  description,
+  completed,
+  onEdit,
+  onDelete,
+  onToggleComplete,
+}) => {
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  return (
+    <div
+      className={`relative p-5 bg-white border rounded-lg shadow-lg transition-all hover:shadow-xl ${
+        completed ? 'opacity-70' : ''
+      }`}
+    >
+      <div className="flex items-start justify-between">
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            checked={completed}
+            onChange={onToggleComplete}
+            className="mr-3 cursor-pointer"
+          />
+          <div className="flex flex-col">
+            <h3
+              className={`text-lg font-semibold ${
+                completed ? 'line-through text-gray-400' : ''
+              }`}
+            >
+              {title}
+            </h3>
+            <p
+              className={`text-gray-600 ${
+                completed ? 'line-through text-gray-400' : ''
+              } truncate`}
+              title={description}
+            >
+              {description}
+            </p>
+          </div>
+        </div>
+        <div className="flex space-x-2">
+          {/* Edit Icon */}
+          <button
+            className="p-2 text-gray-500 transition-colors rounded hover:bg-gray-100 focus:outline-none"
+            onClick={() => setModalOpen(true)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 20h9m-9-9h9m-9 5h3"
+              />
+            </svg>
+          </button>
+
+          {/* Delete Icon */}
+          <button
+            className="p-2 text-gray-500 transition-colors rounded hover:bg-gray-100 focus:outline-none"
+            onClick={onDelete}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 h-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Edit Modal */}
+      {isModalOpen && (
+        <EditModal
+          isOpen={isModalOpen}
+          onClose={() => setModalOpen(false)}
+          onSave={(newTitle, newDescription) => {
+            console.log(`${newTitle}__${newDescription} from onsave todocard`)
+            onEdit(newTitle, newDescription);
+            setModalOpen(false);
+          }}
+          initialTitle={title}
+          initialDescription={description}
+        />
+      )}
+    </div>
+  );
+};
+
+export default TodoCard;
 
 // import React, { useState } from 'react';
 // import EditModal from './EditModal';
@@ -216,122 +334,4 @@
 // };
 
 // export default TodoCard;
-
-import React, { useState } from 'react';
-import EditModal from './EditModal';
-
-interface TodoCardProps {
-  title: string;
-  description: string;
-  completed: boolean;
-  onEdit: (newTitle: string, newDescription: string) => void;
-  onDelete: () => void;
-  onToggleComplete: () => void;
-}
-
-const TodoCard: React.FC<TodoCardProps> = ({
-  title,
-  description,
-  completed,
-  onEdit,
-  onDelete,
-  onToggleComplete,
-}) => {
-  const [isModalOpen, setModalOpen] = useState(false);
-
-  return (
-    <div
-      className={`relative p-5 bg-white border rounded-lg shadow-lg transition-all hover:shadow-xl ${
-        completed ? 'opacity-70' : ''
-      }`}
-    >
-      <div className="flex items-start justify-between">
-        <div className="flex items-center">
-          <input
-            type="checkbox"
-            checked={completed}
-            onChange={onToggleComplete}
-            className="mr-3 cursor-pointer"
-          />
-          <div className="flex flex-col">
-            <h3
-              className={`text-lg font-semibold ${
-                completed ? 'line-through text-gray-400' : ''
-              }`}
-            >
-              {title}
-            </h3>
-            <p
-              className={`text-gray-600 ${
-                completed ? 'line-through text-gray-400' : ''
-              } truncate`}
-              title={description}
-            >
-              {description}
-            </p>
-          </div>
-        </div>
-        <div className="flex space-x-2">
-          {/* Edit Icon */}
-          <button
-            className="p-2 text-gray-500 transition-colors rounded hover:bg-gray-100 focus:outline-none"
-            onClick={() => setModalOpen(true)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 20h9m-9-9h9m-9 5h3"
-              />
-            </svg>
-          </button>
-
-          {/* Delete Icon */}
-          <button
-            className="p-2 text-gray-500 transition-colors rounded hover:bg-gray-100 focus:outline-none"
-            onClick={onDelete}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Edit Modal */}
-      {isModalOpen && (
-        <EditModal
-          isOpen={isModalOpen}
-          onClose={() => setModalOpen(false)}
-          onSave={(newTitle, newDescription) => {
-            onEdit(newTitle, newDescription);
-            setModalOpen(false);
-          }}
-          initialTitle={title}
-          initialDescription={description}
-        />
-      )}
-    </div>
-  );
-};
-
-export default TodoCard;
 

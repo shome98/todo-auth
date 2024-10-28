@@ -253,11 +253,13 @@ const EditModal: React.FC<EditModalProps> = ({
     if (isOpen) {
       setTitle(initialTitle);
       setDescription(initialDescription);
+      console.log(`${initialTitle}---${initialDescription} initial value from editmodal`);
     }
   }, [isOpen, initialTitle, initialDescription]);
 
   const handleSave = () => {
     // Save changes and close the modal
+    console.log(`${title}___${description} from handlesave onsave from editmodal`);
     onSave(title, description);
   };
 
