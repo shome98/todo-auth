@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import TodoCard from './TodoCard';
+// import { useDispatch } from 'react-redux';
+// import { AppDispatch, RootState } from '../../store/store';
+// import { useSelector } from 'react-redux';
 
 interface Todo {
   id: number;
@@ -10,6 +13,9 @@ interface Todo {
 
 const TodoList: React.FC = () => {
   // Sample data
+  // const dispatch = useDispatch<AppDispatch>();
+  // const todos = useSelector((state: RootState) => state.todos.todos);
+  
   const initialTodos: Todo[] = [
     {
       id: 1,
@@ -41,26 +47,6 @@ const TodoList: React.FC = () => {
       )
     );
   };
-
-  // Edit a todo item (For simplicity, just updating the title here)
-  // const editTodo = (id: number,newTitle?:string,newDescription?:string) => {
-  //   // const newTitle = prompt('Enter new title:');
-  //   // const newDescription=prompt('Enter a new Description');
-  //   // if (newTitle && newDescription) {
-  //   //   setTodos((prevTodos) =>
-  //   //     prevTodos.map((todo) =>
-  //   //       todo.id === id ? { ...todo,title: newTitle,description:newDescription } : todo
-  //   //     )
-  //   //   );
-  //   // }
-  //   console.log(`${id}____${newTitle}___${newDescription} recieved from editmodal->todocard->todolist->edittodo`);
-  //   //if(newTitle||newDescription)
-  //   setTodos((prevTodos) =>
-  //       prevTodos.map((todo) =>
-  //         todo.id === id ? {   ...todo } : todo
-  //       )
-  //     );
-  // };
 
   // Delete a todo item
   const deleteTodo = (id: number) => {
