@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, } from 'react';
 import TodoCard from './TodoCard';
 import { useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { useSelector } from 'react-redux';
-import { addNewTodo, fetchTodos, removeExistingTodo, toggleTodoComplete } from '../../slices/todoSlice';
+import { fetchTodos, removeExistingTodo, toggleTodoComplete } from '../../slices/todoSlice';
 
-interface Todo {
-  _id: string;
-  title: string;
-  description: string;
-  completed: boolean;
-}
+// interface Todo {
+//   _id: string;
+//   title: string;
+//   description: string;
+//   completed: boolean;
+// }
 
 const TodoList: React.FC = () => {
   // Sample data
@@ -20,10 +20,7 @@ const TodoList: React.FC = () => {
   const { isAuthenticated } = auth;
   useEffect(() => {
     dispatch(fetchTodos())
-  }, [dispatch])
-  // const handleAddTodo = () => {
-  //   dispatch(addNewTodo({title,description}))
-  // }
+  }, [dispatch,todos])
   
   const toggleComplete = (id:string, completed:boolean) => {
     dispatch(toggleTodoComplete({id,completed}))
