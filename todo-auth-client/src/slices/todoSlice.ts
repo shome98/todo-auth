@@ -4,7 +4,7 @@ import { createTodo, deleteTodo, getCompletedTodos, getPendingTodos, getTodo, ge
 
 
 interface Todo {
-    id: string;
+    _id: string;
     title: string;
     description?: string;
     completed: boolean;
@@ -111,7 +111,7 @@ const todoSlice = createSlice({
             })
             .addCase(fetchTodos.fulfilled, (state, action) => {
                 state.loading = false;
-                state.todos = action.payload;
+                state.todos = action.payload.data;
             })
             .addCase(fetchTodos.rejected, (state, action) => {
                 state.loading = false;
@@ -150,7 +150,7 @@ const todoSlice = createSlice({
             })
             .addCase(toggleTodoComplete.fulfilled, (state, action) => {
                 state.loading = false;
-                const index = state.todos.findIndex((todo) => todo.id === action.payload.id);
+                const index = state.todos.findIndex((todo) => todo._id === action.payload.id);
                 if (index !== -1) {
                     state.todos[index].completed = action.payload.completed;
                 }
@@ -166,7 +166,7 @@ const todoSlice = createSlice({
             })
             .addCase(editExistingTodo.fulfilled, (state, action) => {
                 state.loading = false;
-                const index = state.todos.findIndex((todo) => todo.id === action.payload.id);
+                const index = state.todos.findIndex((todo) => todo._id === action.payload.id);
                 if (index !== -1) {
                     state.todos[index] = action.payload;
                 }
@@ -182,7 +182,7 @@ const todoSlice = createSlice({
             })
             .addCase(removeExistingTodo.fulfilled, (state, action) => {
                 state.loading = false;
-                state.todos = state.todos.filter((todo) => todo.id !== action.payload);
+                state.todos = state.todos.filter((todo) => todo._id !== action.payload);
             })
             .addCase(removeExistingTodo.rejected, (state, action) => {
                 state.loading = false;

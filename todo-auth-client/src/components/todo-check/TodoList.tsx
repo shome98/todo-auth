@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TodoCard from './TodoCard';
-// import { useDispatch } from 'react-redux';
-// import { AppDispatch, RootState } from '../../store/store';
-// import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
+import { useSelector } from 'react-redux';
+import { addNewTodo, fetchTodos, removeExistingTodo, toggleTodoComplete } from '../../slices/todoSlice';
 
 interface Todo {
-  id: number;
+  _id: string;
   title: string;
   description: string;
   completed: boolean;
@@ -13,59 +14,38 @@ interface Todo {
 
 const TodoList: React.FC = () => {
   // Sample data
-  // const dispatch = useDispatch<AppDispatch>();
-  // const todos = useSelector((state: RootState) => state.todos.todos);
+  const dispatch = useDispatch<AppDispatch>();
+  const todos = useSelector((state: RootState) => state.todos.todos);
+  const auth = useSelector((state: RootState) => state.auth)
+  const { isAuthenticated } = auth;
+  useEffect(() => {
+    dispatch(fetchTodos())
+  }, [dispatch])
+  // const handleAddTodo = () => {
+  //   dispatch(addNewTodo({title,description}))
+  // }
   
-  const initialTodos: Todo[] = [
-    {
-      id: 1,
-      title: 'Learn React',
-      description: 'Study the React documentation and build a sample project.',
-      completed: false,
-    },
-    {
-      id: 2,
-      title: 'Grocery Shopping',
-      description: 'Buy fruits, vegetables, and snacks for the week.',
-      completed: false,
-    },
-    {
-      id: 3,
-      title: 'Complete Project',
-      description: 'Finish the ongoing project before the deadline.',
-      completed: true,
-    },
-  ];
-
-  const [todos, setTodos] = useState<Todo[]>(initialTodos);
-
-  // Toggle completion status
-  const toggleComplete = (id: number) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
-  };
-
-  // Delete a todo item
-  const deleteTodo = (id: number) => {
-    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
-  };
+  const toggleComplete = (id:string, completed:boolean) => {
+    dispatch(toggleTodoComplete({id,completed}))
+  }
+  const handleDeleteTodo = async (id: string) => {
+    await dispatch(removeExistingTodo(id));
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      <h1 className="text-2xl font-bold mb-6">Todo List</h1>
+      <h1 className="text-2xl font-bold mb-6">Todo List is { isAuthenticated ?"authenticated":"not authenticated"}</h1>
       <div className="grid grid-cols-1 gap-6 max-w-[800px] w-full">
-        {todos.map((todo) => (
+        {todos.length>0&&todos.map((todo) => (
           <TodoCard
-            key={todo.id}
+            key={todo._id}
             title={todo.title}
-            description={todo.description}
+            description={todo.description || ""}
             completed={todo.completed}
             //onEdit={() => editTodo(todo.id)}
-            onDelete={() => deleteTodo(todo.id)}
-            onToggleComplete={() => toggleComplete(todo.id)}
+            onDelete={() => handleDeleteTodo(todo._id)}
+            onToggleComplete={() => toggleComplete(todo._id, !todo.completed)}
+              id={todo._id}
           />
         ))}
       </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import EditModal from './EditModal';
 
 interface Todo {
+  id:string
   title: string;
   description: string;
   completed: boolean;
@@ -11,6 +12,7 @@ interface Todo {
 }
 
 const TodoCard: React.FC<Todo> = ({
+  id,
   title,
   description,
   completed,
@@ -97,9 +99,10 @@ const TodoCard: React.FC<Todo> = ({
       {isModalOpen && (<EditModal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
-        onSave={() => { }}
+        onSave={() => setModalOpen(false)}
         initialTitle={title}
-        initialDescription={description} />)}
+        initialDescription={description}
+        id={ id} />)}
     </div>
   );
 };

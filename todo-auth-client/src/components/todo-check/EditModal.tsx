@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store/store';
+import { editExistingTodo } from '../../slices/todoSlice';
 
 interface EditModalProps {
+  id: string;
   isOpen: boolean;
   initialTitle: string;
   initialDescription: string;
@@ -9,6 +13,7 @@ interface EditModalProps {
 }
 
 const EditModal: React.FC<EditModalProps> = ({
+  id,
   isOpen,
   initialTitle,
   initialDescription,
@@ -17,6 +22,7 @@ const EditModal: React.FC<EditModalProps> = ({
 }) => {
   const [title, setTitle] = useState(initialTitle);
   const [description, setDescription] = useState(initialDescription);
+  const dispatch = useDispatch<AppDispatch>();
 
   // Sync initial data when modal is opened
   useEffect(() => {
@@ -27,9 +33,10 @@ const EditModal: React.FC<EditModalProps> = ({
     }
   }, [isOpen, initialTitle, initialDescription]);
 
-  const handleSave = () => {
+  const handleSave = async() => {
     // Save changes and close the modal
     console.log(`${title}___${description} from handlesave onsave from editmodal`);
+    await dispatch(editExistingTodo({id,title,description}))
     onSave(title, description);
   };
 
