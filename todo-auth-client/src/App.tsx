@@ -4,7 +4,7 @@ import Login from "./components/Login"
 import Register from "./components/Register"
 import LoggedInPage from "./pages/LoggedInPage"
 import LoggedOutPage from "./pages/LoggedOutPage"
-import TodoList from "./components/todo-check/TodoList"
+import TodoList from "./components/todo/TodoList"
 function App() {
 
   return (
