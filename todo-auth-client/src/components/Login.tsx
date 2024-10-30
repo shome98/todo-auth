@@ -22,7 +22,7 @@ const Login = () => {
         // }
     };
     useEffect(() => {
-        if (isAuthenticated) navigate("/loggedin");
+        if (isAuthenticated) navigate("/todolist");
     },[isAuthenticated,navigate])
 
     return (
