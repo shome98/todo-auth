@@ -1,5 +1,6 @@
 // Navbar.tsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface NavbarProps {
   allCount: number;
@@ -18,6 +19,7 @@ const Navbar: React.FC<NavbarProps> = ({
   onCategorySelect,
   onLogout,
 }) => {
+  const navigate = useNavigate();
   const getButtonClasses = (category: string) =>
     `p-2 rounded transition-colors ${
       selectedCategory === category ? 'bg-gray-700 text-yellow-300' : 'hover:bg-gray-700 text-white'
@@ -37,7 +39,7 @@ const Navbar: React.FC<NavbarProps> = ({
         </button>
       </div>
       <div className="flex space-x-4">
-        <button onClick={() => onCategorySelect('Profile')} className={getButtonClasses('Profile')}>
+        <button onClick={() => navigate("/profile")} className={getButtonClasses('Profile')}>
           Profile
         </button>
         <button onClick={onLogout} className="hover:bg-red-500 p-2 rounded transition-colors text-white">

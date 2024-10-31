@@ -5,10 +5,13 @@ import Register from "./components/Register"
 import LoggedInPage from "./pages/LoggedInPage"
 import LoggedOutPage from "./pages/LoggedOutPage"
 import TodoList from "./components/todo/TodoList"
+import { Toaster } from "react-hot-toast"
+import Profile from "./components/profile/profile"
 function App() {
 
   return (
     <>
+      <Toaster position="top-center" reverseOrder={false}/>
       <Router>
         <Routes>
           <Route path="/" element={<Home/> } />
@@ -17,6 +20,7 @@ function App() {
           <Route path="/loggedin" element={<LoggedInPage />} />
           <Route path="/logged-out" element={<LoggedOutPage />} />
           <Route path="/todolist" element={<TodoList />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Router>
     </>
