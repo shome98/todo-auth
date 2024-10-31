@@ -7,6 +7,7 @@ import LoggedOutPage from "./pages/LoggedOutPage"
 import TodoList from "./components/todo/TodoList"
 import { Toaster } from "react-hot-toast"
 import Profile from "./components/profile/Profile"
+import ForgotPassword from "./components/profile/ForgotPassword"
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/logged-out" element={<LoggedOutPage />} />
           <Route path="/todolist" element={<TodoList />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </Router>
     </>

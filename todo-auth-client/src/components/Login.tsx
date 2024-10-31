@@ -26,7 +26,7 @@ const Login = () => {
         if (isAuthenticated) {
             navigate("/todolist");
             toast.success(`You are logged in!!!`)
-            console.log(user);
+            //console.log(user);
         }
     },[isAuthenticated,navigate,user])
 
@@ -83,11 +83,22 @@ const Login = () => {
 
                         <hr />
                         <div className="flex justify-center items-center mt-4">
-                            <p className="inline-flex items-center text-gray-700 font-medium text-xs text-center">
-                                <span className="ml-2">You don't have an account? <a href="/register" className="text-xs ml-2 text-blue-500 font-semibold">Register now &rarr;</a>
-                                </span>
-                            </p>
-                        </div>
+    <div className="flex flex-col items-center">
+        <p className="text-gray-700 font-medium text-xs">
+            You don't have an account? 
+            <span className="text-blue-500 font-semibold ml-2">
+                <a href="/register">Register now &rarr;</a>
+            </span>
+        </p>
+        <p className="text-gray-700 font-medium text-xs mt-1">
+            Forgot password? 
+            <span className="text-blue-500 font-semibold ml-2">
+                <a href="/forgot-password">Reset password now &rarr;</a>
+            </span>
+        </p>
+    </div>
+</div>
+
                     </div>
                 </div>
                 <div className="pt-6 text-base font-semibold leading-7">
