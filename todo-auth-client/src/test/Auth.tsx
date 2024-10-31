@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { forgotUserPassword, login } from "../../slices/authSlice";
-import { AppDispatch, RootState } from "../../store/store";
+import { forgotUserPassword, login } from "../slices/authSlice";
+import { AppDispatch, RootState } from "../store/store";
 
 const Auth = () => {
     const [showForgotPassword, setShowForgotPassword] = useState(false);
