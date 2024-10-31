@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../store/store";
+import toast from "react-hot-toast";
 
 const Login = () => {
     const [username, setUsername] = useState<string>("");
@@ -11,8 +12,8 @@ const Login = () => {
     const navigate = useNavigate();
 
     const auth = useSelector((state: RootState) => state.auth);
-    const { loading, error,isAuthenticated } = auth;
-
+    const { loading, error,isAuthenticated,user } = auth;
+    
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(login({ username, password }));
@@ -22,8 +23,12 @@ const Login = () => {
         // }
     };
     useEffect(() => {
-        if (isAuthenticated) navigate("/todolist");
-    },[isAuthenticated,navigate])
+        if (isAuthenticated) {
+            navigate("/todolist");
+            toast.success(`You are logged in!!!`)
+            console.log(user);
+        }
+    },[isAuthenticated,navigate,user])
 
     return (
         <div className="h-screen bg-gradient-to-br from-blue-600 to-cyan-300 flex justify-center items-center w-full">

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
 import { addNewTodo } from "../../slices/todoSlice";
+import toast from "react-hot-toast";
 
 // interface NewTodo{
 //     title:string;
@@ -9,7 +10,7 @@ import { addNewTodo } from "../../slices/todoSlice";
 // }
 interface AddModalProps{
     onClose: () => void;
-    onSave:()=>void;
+  onSave: () => void;
 }
 
 export const AddModal:React.FC<AddModalProps>=({onClose,onSave})=>{
@@ -18,8 +19,14 @@ export const AddModal:React.FC<AddModalProps>=({onClose,onSave})=>{
     const [description,setDescription]=useState("");
     const dispatch=useDispatch<AppDispatch>();
     const handleSave=async()=>{
-        await dispatch(addNewTodo({title,description}));
+      const status = await dispatch(addNewTodo({ title, description }));
+      if (status.meta.requestStatus === "fulfilled") {
+        toast.success(`Successfully created a new todo!!!`);
         onSave();
+      return
+    }
+    toast.error("Could not create a new todo!!!");
+    onSave();
     }
     return (<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
     <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">

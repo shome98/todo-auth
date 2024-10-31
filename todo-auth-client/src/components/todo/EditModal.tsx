@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
 import { editExistingTodo } from '../../slices/todoSlice';
+import toast from 'react-hot-toast';
 
 interface EditModalProps {
   id: string;
@@ -36,7 +37,13 @@ const EditModal: React.FC<EditModalProps> = ({
   const handleSave = async() => {
     // Save changes and close the modal
     console.log(`${title}___${description} from handlesave onsave from editmodal`);
-    await dispatch(editExistingTodo({id,title,description}))
+    const status=await dispatch(editExistingTodo({ id, title, description }));
+    if (status.meta.requestStatus === "fulfilled") {
+        toast.success(`Successfully edited the todo!!!`);
+        onSave(title, description);
+      return
+    }
+    toast.error("Could not edit the todo!!!");
     onSave(title, description);
   };
 

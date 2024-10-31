@@ -7,6 +7,7 @@ import { fetchTodos, removeExistingTodo, toggleTodoComplete } from '../../slices
 import { AddModal } from './AddModal';
 import { logout } from '../../slices/authSlice';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const TodoList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -46,19 +47,34 @@ const TodoList: React.FC = () => {
   };
 
   const handleDeleteTodo = async (id: string) => {
-    await dispatch(removeExistingTodo(id));
-    setIsChanged(prev=>prev+1)
+    const status = await dispatch(removeExistingTodo(id));
+    if (status.meta.requestStatus === "fulfilled") {
+      setIsChanged(prev => prev + 1);
+      toast.success(`Successfully deleted the todo!!!`);
+      return
+    }
+    toast.error("Could not delete the todo!!!");
   };
 
   const handleToggleComplete = async (id:string, completed:boolean) => {
-    await dispatch(toggleTodoComplete({id,completed}));
-    setIsChanged(isChanged+1);
+    const status = await dispatch(toggleTodoComplete({ id, completed }));
+    if (status.meta.requestStatus === "fulfilled") {
+      setIsChanged(isChanged + 1);
+      toast.success("Successfully completed the todo!!!");
+      return
+    }
+    toast.error("Could not complete the todo!!!");
   }
 
   const handleLogout = async() => {
     // handle logout logic here
-    await dispatch(logout());
-        navigate('/logged-out');
+    const status = await dispatch(logout());
+    if (status.meta.requestStatus === "fulfilled") {
+      toast.success("You are logged out!!!");
+      navigate('/');
+      return
+    }
+    toast.error("Could not log you out!!!")
   };
 
   return (
