@@ -25,7 +25,7 @@ const WhatsNew: React.FC = () => {
                 <li>Improved user authentication process. 🔒</li>
                 <li>Enhanced UI for a better user experience. 🎨</li>
                 <li>List your todos. ⏰</li>
-                <li>Added feature filtering todos. 🗂️</li>
+                <li>Added feature for filtering pending, completed todos. 🗂️</li>
             </ul>
             {/*<h2 className="text-xl font-semibold mb-2">Feedback:</h2>
             <form onSubmit={handleSubmit} className="flex flex-col">
