@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { register } from "../slices/authSlice"; // Importing the register action
 import { AppDispatch } from "../store/store";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 interface User {
     username: string;
@@ -20,7 +21,7 @@ const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         // Check if passwords match
@@ -34,7 +35,12 @@ const Register = () => {
 
         // Dispatch the register action if passwords are the same
         if (user.username && user.email && user.password) {
-            dispatch(register(user));
+            const status=await dispatch(register(user));
+            if (status.meta.requestStatus === "fulfilled") {
+            toast.success("Successfully created an account here. Proceed to login!!!");
+        } else {
+            toast.error("Failed to create an account. Please try again!!!");
+        }
             setUser({ username: '', email: '', password: '' });
             setConfirmPassword('');
         }
