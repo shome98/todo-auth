@@ -37,9 +37,18 @@ export const logout = createAsyncThunk('auth/logout', async () => {
     const response = await logoutUser();
     return response?.status;
 });
-export const forgotUserPassword = createAsyncThunk('auth/forgotPassword', async (userData: { username: string; email: string }) => {
-    const response = await forgotPassword(userData);
-    return response?.data.message;
+export const forgotUserPassword = createAsyncThunk('auth/forgotPassword', async (userData: { username: string; email: string; newPassword:string },{rejectWithValue}) => {
+    try {
+        const response = await forgotPassword(userData);
+        if (response?.status === 200) {
+                return response?.data.message;
+            } else {
+                return rejectWithValue("Password reset failed");
+            }
+    } catch (error) {
+         return rejectWithValue( `Password reset failed with ${error}`);
+    }
+    
 });
 // export const updateUserPassword = createAsyncThunk(
 //     'auth/updatePassword',

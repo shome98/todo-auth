@@ -29,7 +29,7 @@ export const logoutUser = async () => {
     }
 };
 
-export const forgotPassword = async (userData: { username: string; email: string }) => {
+export const forgotPassword = async (userData: { username: string; email: string; newPassword:string }) => {
     try {
         const response = await axios.post(`${API_URL}/forgot-password`, userData);
         return response;
