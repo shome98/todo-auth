@@ -1,13 +1,12 @@
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import ThirdPartyCookieNotice from "../components/ThirdPartyCookieNotice";
 
 const Home = () => {
     const navigate = useNavigate();
-
+    useEffect(() => { toast.success("Please enable third-party cookies for this site!!!") }, [])
     return (
         <div className="relative">
-            <ThirdPartyCookieNotice />
-
             <div className="flex flex-col items-center justify-center h-screen space-y-4">
                 <h1 className="text-4xl">Welcome to Todo App</h1>
                 <div className="flex items-center space-x-4">
