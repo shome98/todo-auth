@@ -13,6 +13,9 @@ const ForgotPassword = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const status = await dispatch(forgotUserPassword({ username, email, newPassword }));
+        setEmail("");
+        setUsername("");
+        setNewPassword("");
         if (status.meta.requestStatus === "fulfilled") {
             toast.success("Successfully changed password");
         } else {
