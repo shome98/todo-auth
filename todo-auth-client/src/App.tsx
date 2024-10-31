@@ -8,6 +8,7 @@ import TodoList from "./components/todo/TodoList"
 import { Toaster } from "react-hot-toast"
 import Profile from "./components/profile/Profile"
 import ForgotPassword from "./components/profile/ForgotPassword"
+import WhatsNew from "./pages/WhatsNew"
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/todolist" element={<TodoList />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/whats-new" element={<WhatsNew />} />
         </Routes>
       </Router>
     </>

@@ -52,6 +52,12 @@ const Navbar: React.FC<NavbarProps> = ({
             Completed
           </div>
         </button>
+        <button onClick={() => navigate('/whats-new')} className={getButtonClasses('WhatsNew')}>
+          <div className="relative">
+            <span role="img" aria-label="sparkles" className="text-yellow-300">✨</span>
+            What's New
+          </div>
+        </button>
       </div>
       <div className="flex space-x-4">
         <button onClick={() => navigate("/profile")} className={getButtonClasses('Profile')}>
