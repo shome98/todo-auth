@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
 import { forgotUserPassword } from '../../slices/authSlice';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 const ForgotPassword = () => {
     const [username, setUsername] = useState("");
@@ -86,7 +87,7 @@ const ForgotPassword = () => {
 
                         <div className="pt-6 text-base font-semibold leading-7">
                             <p className="font-sans text-red-500 text-md hover:text-red-800">
-                                <a href="/login" className="absolute">&larr; Back to Login</a>
+                                <Link to="/login" className='absolute'>&larr; Back to Login</Link>
                             </p>
                         </div>
                     </div>

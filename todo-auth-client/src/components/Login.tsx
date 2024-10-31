@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../slices/authSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../store/store";
 import toast from "react-hot-toast";
 
@@ -83,18 +83,22 @@ const Login = () => {
 
                         <hr />
                         <div className="flex justify-center items-center mt-4">
+                            <div className="flex flex-col items-center">
                             <p className="inline-flex items-center text-gray-700 font-medium text-xs text-center">
-                                <span className="ml-2">You don't have an account? <a href="/register" className="text-xs ml-2s text-blue-500 font-semibold">Register now &rarr;</a>
-                                </span>
-                                <span className="ml-2">Forgot password ? <a href="/forgot-password" className="text-xs ml-2 text-blue-500 font-semibold">Reset password now &rarr;</a>
+                                <span className="ml-2">You don't have an account? <Link to="/register" className="text-xs ml-2 text-blue-500 font-semibold"> Register now &rarr;</Link>
                                 </span>
                             </p>
+                            <p className="inline-flex items-center text-gray-700 font-medium text-xs text-center">
+                                <span className="ml-2">Forgot password ? <Link to="/forgot-password" className="text-xs ml-2 text-blue-500 font-semibold"> Reset password now &rarr;</Link>
+                                </span>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div className="pt-6 text-base font-semibold leading-7">
                     <p className="font-sans text-red-500 text-md hover:text-red-800">
-                        <a href="/" className="absolute">&larr; Home</a>
+                        <Link to="/" className="absolute">&larr; Home</Link>
                     </p>
                 </div>
             </form>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { register } from "../slices/authSlice"; // Importing the register action
 import { AppDispatch } from "../store/store";
+import { Link } from "react-router-dom";
 
 interface User {
     username: string;
@@ -126,7 +127,7 @@ const Register = () => {
                 
                 <div className="pt-6 text-base font-semibold leading-7">
                     <p className="font-sans text-red-500 text-md hover:text-red-800">
-                        <a href="/" className="absolute">&larr; Home</a>
+                        <Link to="/" className="absolute">&larr; Home</Link>
                     </p>
                 </div>
             </form>
