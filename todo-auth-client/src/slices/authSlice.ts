@@ -36,13 +36,32 @@ export const forgotUserPassword = createAsyncThunk('auth/forgotPassword', async 
     const response = await forgotPassword(userData);
     return response?.data.message;
 });
+// export const updateUserPassword = createAsyncThunk(
+//     'auth/updatePassword',
+//     async (passwordData: { oldPassword: string; newPassword: string }) => {
+//         const response = await updatePassword(passwordData);
+//         return response?.data.message;
+//     }
+// );
 export const updateUserPassword = createAsyncThunk(
     'auth/updatePassword',
-    async (passwordData: { oldPassword: string; newPassword: string }) => {
-        const response = await updatePassword(passwordData);
-        return response?.data.message;
+    async (passwordData: { oldPassword: string; newPassword: string }, { rejectWithValue }) => {
+        try {
+            const response = await updatePassword(passwordData);
+
+            if (response?.status === 200) {
+                return response?.data.message; // success case
+            } else {
+                // Manually reject if status is not 200
+                return rejectWithValue("Password update failed");
+            }
+        } catch (error) {
+            // Pass the error message as the rejection reason
+            return rejectWithValue( `Password update failed with ${error}`);
+        }
     }
 );
+
 
 const authSlice = createSlice({
     name: 'auth',
@@ -57,7 +76,7 @@ const authSlice = createSlice({
             })
             .addCase(login.fulfilled, (state, action) => {
                 state.loading = false;
-                state.user = action.payload;
+                state.user = action.payload.data.user;
                 state.isAuthenticated = true;
             })
             .addCase(login.rejected, (state, action) => {
