@@ -22,14 +22,14 @@ const TodoList: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchTodos());
-  }, [dispatch,isChanged]);
+  }, [dispatch, isChanged]);
 
   useEffect(() => {
     // Update counts based on the latest todos
     setAllCount(todos.length);
     setPendingCount(todos.filter(todo => !todo.completed).length);
     setCompletedCount(todos.filter(todo => todo.completed).length);
-  }, [todos,isChanged]);
+  }, [todos, isChanged]);
 
   const handleCategorySelect = (category: string) => {
     setCurrentCategory(category);
@@ -51,31 +51,30 @@ const TodoList: React.FC = () => {
     if (status.meta.requestStatus === "fulfilled") {
       setIsChanged(prev => prev + 1);
       toast.success(`Successfully deleted the todo!!!`);
-      return
+      return;
     }
     toast.error("Could not delete the todo!!!");
   };
 
-  const handleToggleComplete = async (id:string, completed:boolean) => {
+  const handleToggleComplete = async (id: string, completed: boolean) => {
     const status = await dispatch(toggleTodoComplete({ id, completed }));
     if (status.meta.requestStatus === "fulfilled") {
       setIsChanged(isChanged + 1);
-      if (completed === true) toast.success("Successfully completed the todo!!!");
-      if (completed===false) toast.success("Successfully undone the todo!!!");
-      return
+      if (completed) toast.success("Successfully completed the todo!!!");
+      else toast.success("Successfully undone the todo!!!");
+      return;
     }
     toast.error("Could not complete the todo!!!");
-  }
+  };
 
-  const handleLogout = async() => {
-    // handle logout logic here
+  const handleLogout = async () => {
     const status = await dispatch(logout());
     if (status.meta.requestStatus === "fulfilled") {
       toast.success("You are logged out!!!");
       navigate('/');
-      return
+      return;
     }
-    toast.error("Could not log you out!!!")
+    toast.error("Could not log you out!!!");
   };
 
   return (
@@ -89,22 +88,31 @@ const TodoList: React.FC = () => {
         selectedCategory={currentCategory}
       />
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-        {/*<h1 className="text-2xl font-bold mb-6">{currentCategory} Todos</h1>*/}
-        <button onClick={() => setAddOpen(true)} className="ml-auto px-5 py-2 my-3 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded hover:bg-blue-700 hover:border-blue-700">
+        <button 
+          onClick={() => setAddOpen(true)} 
+          className="ml-auto px-5 py-2 my-3 text-sm font-medium text-white bg-blue-600 border border-blue-600 rounded hover:bg-blue-700 hover:border-blue-700"
+        >
           Add new Todo
         </button>
         <div className="grid grid-cols-1 gap-6 max-w-[800px] w-full">
-          {getDisplayedTodos().map(todo => (
-            <TodoCard
-              key={todo._id}
-              title={todo.title}
-              description={todo.description || ''}
-              completed={todo.completed}
-              onDelete={() => handleDeleteTodo(todo._id)}
-              onToggleComplete={() => handleToggleComplete(todo._id, !todo.completed)}
-              id={todo._id}
-            />
-          ))}
+          {getDisplayedTodos().length > 0 ? (
+            getDisplayedTodos().map(todo => (
+              <TodoCard
+                key={todo._id}
+                title={todo.title}
+                description={todo.description || ''}
+                completed={todo.completed}
+                onDelete={() => handleDeleteTodo(todo._id)}
+                onToggleComplete={() => handleToggleComplete(todo._id, !todo.completed)}
+                id={todo._id}
+              />
+            ))
+          ) : (
+            <div className="flex flex-col items-center justify-center p-6 border border-gray-300 rounded-lg text-gray-700">
+              <p className="text-lg">No todos are available.</p>
+              <p className="text-sm">Start by adding a new todo!</p>
+            </div>
+          )}
         </div>
         {isAddOpen && (
           <AddModal onClose={() => setAddOpen(false)} onSave={() => setAddOpen(false)} />
