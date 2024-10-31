@@ -60,7 +60,8 @@ const TodoList: React.FC = () => {
     const status = await dispatch(toggleTodoComplete({ id, completed }));
     if (status.meta.requestStatus === "fulfilled") {
       setIsChanged(isChanged + 1);
-      toast.success("Successfully completed the todo!!!");
+      if (completed === true) toast.success("Successfully completed the todo!!!");
+      if (completed===false) toast.success("Successfully undone the todo!!!");
       return
     }
     toast.error("Could not complete the todo!!!");
