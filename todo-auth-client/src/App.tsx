@@ -6,7 +6,8 @@ import LoggedInPage from "./pages/LoggedInPage"
 import LoggedOutPage from "./pages/LoggedOutPage"
 import TodoList from "./components/todo/TodoList"
 import { Toaster } from "react-hot-toast"
-import Profile from "./components/profile/profile"
+import Profile from "./components/profile/Profile"
+
 function App() {
 
   return (
