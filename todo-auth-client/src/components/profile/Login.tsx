@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../slices/authSlice";
+import { login } from "../../slices/authSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { AppDispatch, RootState } from "../store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import toast from "react-hot-toast";
 
 const Login = () => {

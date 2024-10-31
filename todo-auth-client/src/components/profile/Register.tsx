@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { register } from "../slices/authSlice"; // Importing the register action
-import { AppDispatch } from "../store/store";
+import { register } from "../../slices/authSlice"; // Importing the register action
+import { AppDispatch } from "../../store/store";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
