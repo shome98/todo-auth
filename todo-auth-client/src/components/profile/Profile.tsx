@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 
 const Profile = () => {
     const auth = useSelector((state: RootState) => state.auth)
-    const { user,error } = auth;
+    const { user} = auth;
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const dispatch = useDispatch<AppDispatch>();
@@ -17,15 +17,13 @@ const Profile = () => {
         setNewPassword("");
         setOldPassword("");
         if (status.meta.requestStatus === "rejected") {
-            toast.error("Could not update the passsword");
+            toast.error("Could not update the passsword!!!");
             return;
         }
         if (status.meta.requestStatus === "fulfilled") {
             toast.success("Successfully updated the password!!!");
             return;
         }
-        
-        
     }
   return (
       <>
