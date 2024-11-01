@@ -8,7 +8,7 @@ import { ApiError } from "../utils/ApiError";
 export const createFeedback = asyncHandler(async (req: Request, res: Response) => { 
     let { userId, username, feedback } = req.body;
     if (username === "") username = "Anonymous user";
-    if (userId === "") username = "NA";
+    if (userId === "") userId = "NA";
     const adminId: string | Schema.Types.ObjectId = process.env.ADMIN_ID as string;
     const feed = await Feedback.create({ adminId, userId, username, feedback });
     const newFeedback = await Feedback.findById(feed._id);
