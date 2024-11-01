@@ -7,9 +7,9 @@ export interface Ifeedback extends Document{
     feedback: string;
 }
 const feedbackSchema = new Schema<Ifeedback>({
-    adminId: { type:Schema.Types.ObjectId,required: true },
+    adminId: { type:Schema.Types.ObjectId,required: true, ref:"User"},
     username: {type:String},
-    userId: {type:Schema.Types.ObjectId},
+    userId: {type:Schema.Types.ObjectId,ref:"User"},
     feedback: { type:String,required: true }
 }, { timestamps: true });
 const Feedback = mongoose.model<Ifeedback>("Feedback", feedbackSchema);
