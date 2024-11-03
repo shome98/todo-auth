@@ -5,8 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { fetchTodos, removeExistingTodo, toggleTodoComplete } from '../../slices/todoSlice';
 import { AddModal } from './AddModal';
-import { logout } from '../../slices/authSlice';
-import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 const TodoList: React.FC = () => {
@@ -17,7 +15,6 @@ const TodoList: React.FC = () => {
   const [pendingCount, setPendingCount] = useState(0);
   const [completedCount, setCompletedCount] = useState(0);
   const [isAddOpen, setAddOpen] = useState(false);
-  const navigate = useNavigate();
   const [isChanged, setIsChanged] = useState(0);
 
   useEffect(() => {
@@ -67,24 +64,23 @@ const TodoList: React.FC = () => {
     toast.error("Could not complete the todo!!!");
   };
 
-  const handleLogout = async () => {
-    const status = await dispatch(logout());
-    if (status.meta.requestStatus === "fulfilled") {
-      toast.success("You are logged out!!!");
-      navigate('/');
-      return;
-    }
-    toast.error("Could not log you out!!!");
-  };
+  // const handleLogout = async () => {
+  //   const status = await dispatch(logout());
+  //   if (status.meta.requestStatus === "fulfilled") {
+  //     toast.success("You are logged out!!!");
+  //     navigate('/');
+  //     return;
+  //   }
+  //   toast.error("Could not log you out!!!");
+  // };
 
   return (
-    <div>
+    <div className='flex flex-col justify-items-center max-h-full max-w-full'>
       <Navbar
         allCount={allCount}
         pendingCount={pendingCount}
         completedCount={completedCount}
         onCategorySelect={handleCategorySelect}
-        onLogout={handleLogout}
         selectedCategory={currentCategory}
       />
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
