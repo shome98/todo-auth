@@ -7,13 +7,15 @@ import { Toaster } from "react-hot-toast"
 import Profile from "./components/profile/Profile"
 import ForgotPassword from "./components/profile/ForgotPassword"
 import WhatsNew from "./pages/WhatsNew"
+import Header from "./components/Header"
 
 function App() {
 
   return (
     <>
-      <Toaster position="top-center" reverseOrder={false}/>
+      <Toaster position="top-center" reverseOrder={false} />
       <Router>
+        <Header/>
         <Routes>
           <Route path="/" element={<Home/> } />
           <Route path="/login" element={<Login/> } />
