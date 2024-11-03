@@ -12,6 +12,7 @@ const Home = () => {
 
     return (
         <div className="relative">
+            <WhatsNewButton/>
             <div className="flex flex-col items-center justify-center h-screen space-y-4">
                 <h1 className="text-4xl">Welcome to Todo App</h1>
                 <div className="flex items-center space-x-4">
