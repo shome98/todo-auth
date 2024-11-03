@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux'
 import { RootState } from '../store/store'
-import LogOutButton from './profile/LogOutButton';
+import LogOutButton from './buttons/LogOutButton';
 import { useNavigate } from 'react-router-dom';
-import ProfileButton from './profile/ProfileButton';
-import LogInButton from './profile/LogInButton';
-import WhatsNewButton from './profile/WhatsNewButton';
+import ProfileButton from './buttons/ProfileButton';
+import LogInButton from './buttons/LogInButton';
+import WhatsNewButton from './buttons/WhatsNewButton';
 
 const Header = () => {
     const auth = useSelector((state: RootState) => state.auth);

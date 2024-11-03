@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import WhatsNewButton from "../components/profile/WhatsNewButton";
+import WhatsNewButton from "../components/buttons/WhatsNewButton";
 
 const Home = () => {
     const navigate = useNavigate();
