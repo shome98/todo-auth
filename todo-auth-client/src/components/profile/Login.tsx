@@ -4,6 +4,7 @@ import { login } from "../../slices/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store/store";
 import toast from "react-hot-toast";
+//import Cookies from "js-cookie";
 
 const Login = () => {
     const [username, setUsername] = useState<string>("");
@@ -16,7 +17,17 @@ const Login = () => {
     
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        dispatch(login({ username, password }));
+        await dispatch(login({ username, password }));
+        //const stat = dispatch(login({ username, password }));
+        // console.log((await stat).payload);
+        // const tokens = (await stat).payload.data;
+        // console.log(tokens);
+        // console.log(user);
+        // console.log(`token from slice access- ${accessToken} and token from payload data ${tokens.accessToken}`);
+        // console.log(`token from slice refresh- ${refreshToken} and token from payload data ${tokens.refreshToken}`);
+        // Cookies.set("accessToken", `${tokens.accessToken}`);
+        // Cookies.set("refreshToken", `${tokens.refreshToken}`);
+
         // if (!loading && user) {
         //     console.log(user);
         //     navigate("/loggedin"); // Redirect to the "You're logged in" page
@@ -26,7 +37,7 @@ const Login = () => {
         if (isAuthenticated) {
             navigate("/todolist");
             toast.success(`You are logged in!!!`)
-            //console.log(user);
+            console.log(user);
         }
     },[isAuthenticated,navigate,user])
 
