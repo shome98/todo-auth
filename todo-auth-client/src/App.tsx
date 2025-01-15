@@ -1,4 +1,4 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom"
+import { Route, Routes } from "react-router-dom"
 import Home from "./pages/Home"
 import Login from "./components/profile/Login"
 import Register from "./components/profile/Register"
@@ -14,7 +14,6 @@ function App() {
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
-      <Router>
         <Header/>
         <Routes>
           <Route path="/" element={<Home/> } />
@@ -25,7 +24,6 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/whats-new" element={<WhatsNew />} />
         </Routes>
-      </Router>
     </>
   )
 }
